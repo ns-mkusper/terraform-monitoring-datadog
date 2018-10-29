@@ -50,7 +50,7 @@ resource "aws_security_group" "ssh_sg" {
 # Security Group Rules
 # https://www.terraform.io/docs/providers/aws/r/security_group_rule.html
 #
-resource "aws_security_group_rule" "inbound_http_from_anywhere" {
+resource "aws_security_group_rule" "inbound_https_from_anywhere" {
   type              = "ingress"
   from_port         = 443
   to_port           = 443
