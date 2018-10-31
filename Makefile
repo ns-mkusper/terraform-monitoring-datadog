@@ -2,6 +2,7 @@ ROLE	:= GEHC-030
 
 SHELL 	  := /bin/bash
 STATES    := "$(shell pwd)"/_states
+KEYS    := "$(shell pwd)"/_keys
 LOGS			:= "$(shell pwd)"/_logs
 TERRAFORM := "$(shell pwd)"/modules
 ANSIBLE   := "$(shell pwd)"/ansible
@@ -25,7 +26,7 @@ terraform: init
 	aws-vault exec "$(ROLE)" --assume-role-ttl=60m -- terraform plan   	; \
 	aws-vault exec "$(ROLE)" --assume-role-ttl=60m -- terraform apply		\
 		-state="$(STATES)/$(ROLE)"_terraform.tfstate 			\
-		-var key_name="$(ROLE)" 						\
+		-var aws_ec2_public_key="$(KEYS)/$(ROLE)"				\
 		-auto-approve
 
 
@@ -39,5 +40,5 @@ destroy:
 	cd "$(TERRAFORM)"							 	; \
 	aws-vault exec "$(ROLE)" --assume-role-ttl=60m -- terraform destroy	\
 		-state="$(STATES)/$(ROLE)"_terraform.tfstate 			\
-		-var aws_ec2_public_key="$(ROLE)"				\
+		-var aws_ec2_public_key="$(KEYS)/$(ROLE)"				\
 		-auto-approve
