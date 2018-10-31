@@ -101,6 +101,7 @@ ENV/
 .mypy_cache/
 .terraform
 ec2-key*
+*terraform.tfstate*
 terraform.tfstate*
 *.crt
 *.csr
