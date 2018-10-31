@@ -143,12 +143,6 @@ resource "aws_instance" "monitor_host" {
   # Instance userdata to install dd and setup nginx/ansible
   user_data = <<-EOF
               #!/bin/bash
-              sudo yum install epel-release -y
-              sudo yum install nginx ansible -y
-              sudo chkconfig nginx on
-              sudo systemctl start nginx
-              sudo chkconfig iptables off
-
               DD_API_KEY="${data.vault_generic_secret.dd-secrets.data["api-key"]}" bash -c "$(curl -L https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agent/source/install_agent.sh)"
               EOF
   key_name = "${aws_key_pair.aws_ssh_key.key_name}"
