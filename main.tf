@@ -93,7 +93,7 @@ resource "aws_security_group_rule" "outbound_to_anywhere" {
 #
 resource "aws_key_pair" "aws_ssh_key" {
   key_name   = "${var.common_name}-${terraform.workspace}"
-  public_key = "${var.aws_public_key_material}"
+  public_key = "${file("${var.aws_ec2_public_key}")}"
 }
 #
 # Randomize subnet selection
@@ -148,6 +148,7 @@ resource "aws_instance" "monitor_host" {
               sudo chkconfig nginx on
               sudo systemctl start nginx
               sudo chkconfig iptables off
+
               DD_API_KEY="${data.vault_generic_secret.dd-secrets.data["api-key"]}" bash -c "$(curl -L https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agent/source/install_agent.sh)"
               EOF
   key_name = "${aws_key_pair.aws_ssh_key.key_name}"

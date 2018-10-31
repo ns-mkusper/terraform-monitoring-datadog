@@ -1,8 +1,9 @@
-#############################################################################
+#
 # Variables
 # https://www.terraform.io/docs/configuration/variables.html
-#############################################################################
+#
 variable "aws_region" {
+  default = "us-east-1"
   description = "The region to provision AWS resources in."
 }
 variable "common_name" {
@@ -21,11 +22,7 @@ variable "aws_instance_type" {
   default = "t2.nano"
   description = "The AWS instance type to launch."
 }
-variable "aws_public_key_material" {
-  description = "The public SSH key material to load onto the instances."
-}
-# For example purposes
-variable "monitor_suffix" {
-  default = "Kelner Example from Terraform"
-  description = "A suffic that gets applied to end of monitor names"
+variable "aws_ec2_public_key" {
+  default = "~/.ssh/id_rsa.pub"
+  description = "Public SSH key to load onto the monitor host."
 }
