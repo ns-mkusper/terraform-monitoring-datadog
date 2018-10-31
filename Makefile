@@ -8,7 +8,7 @@ TERRAFORM := "$(shell pwd)"/modules
 ANSIBLE   := "$(shell pwd)"/ansible
 PLAYBOOK  := "$(shell pwd)"/tests
 
-INVENTORY_PATH := "$(shell which terraform-inventory |awk '{print$3}')"
+INVENTORY_PATH := "$(shell which terraform-inventory)"
 
 
 all: terraform provision
@@ -33,7 +33,7 @@ terraform: init
 provision: #.roles
 	cd "$(ANSIBLE)" 							 	; \
 	export TF_STATE="$(STATES)/$(ROLE)"_terraform.tfstate 		 	; \
-	ansible-playbook -vvv --inventory-file="$(INVENTORY_PATH)" playbook.yml
+	ansible-playbook --inventory-file="$(INVENTORY_PATH)" playbook.yml
 
 
 destroy:
